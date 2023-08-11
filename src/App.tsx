@@ -69,8 +69,7 @@ const box = {
     scale: 1.2,
     transformOrigin: custom,
   }),
-  exit: (custom: string) => ({
-    scale: 0,
+  default: (custom: string) => ({
     transformOrigin: custom,
   }),
 };
@@ -101,8 +100,10 @@ function App() {
             layoutId={n}
             custom={changeDirefction(n)}
             variants={box}
-            exit="exit"
+            initial="default"
+            animate="default"
             whileHover="hover"
+            transition={{ type: "linear" }}
           >
             {n === "2" && !clicked ? <Circle layoutId="circle" /> : null}
             {n === "3" && clicked ? <Circle layoutId="circle" /> : null}
@@ -119,6 +120,7 @@ function App() {
           >
             <Box
               layoutId={id}
+              transition={{ type: "linear" }}
               style={{
                 width: 400,
                 height: 300,
