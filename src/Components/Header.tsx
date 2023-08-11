@@ -2,6 +2,7 @@ import { motion, useAnimation, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import { styled } from "styled-components";
+import { BASE_URL } from "../utils";
 
 const Nav = styled(motion.nav)`
   display: flex;
@@ -103,8 +104,8 @@ const navVariants = {
 
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
-  const homeMatch = useRouteMatch("/");
-  const tvMatch = useRouteMatch("/tv");
+  const homeMatch = useRouteMatch(BASE_URL + "/");
+  const tvMatch = useRouteMatch(BASE_URL + "/tv");
   const inputAnimation = useAnimation();
   const navAnimation = useAnimation();
   const { scrollY } = useScroll(); //useViewportScroll => useScroll
@@ -141,12 +142,12 @@ function Header() {
         </Logo>
         <Items>
           <Item>
-            <Link to="/">
+            <Link to={BASE_URL + "/"}>
               Home {homeMatch?.isExact && <Circle layoutId="circle" />}
             </Link>
           </Item>
           <Item>
-            <Link to="/tv">
+            <Link to={BASE_URL + "/tv"}>
               TV Shows {tvMatch && <Circle layoutId="circle" />}
             </Link>
           </Item>
