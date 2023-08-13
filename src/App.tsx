@@ -18,7 +18,7 @@ function App() {
         <Route path={BASE_URL + "/search"}>
           <Search />
         </Route>
-        <Route path={BASE_URL + "/"}>
+        <Route path={[BASE_URL + "/", BASE_URL + "/movies/:movieId"]}>
           <Home />
         </Route>
       </Switch>
