@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/Nomadcoder_react-masterclass-nomflix/static/js/main.714764ba.js",
+    "main.js": "/Nomadcoder_react-masterclass-nomflix/static/js/main.d1ae4bf0.js",
     "index.html": "/Nomadcoder_react-masterclass-nomflix/index.html",
-    "main.714764ba.js.map": "/Nomadcoder_react-masterclass-nomflix/static/js/main.714764ba.js.map"
+    "main.d1ae4bf0.js.map": "/Nomadcoder_react-masterclass-nomflix/static/js/main.d1ae4bf0.js.map"
   },
   "entrypoints": [
-    "static/js/main.714764ba.js"
+    "static/js/main.d1ae4bf0.js"
   ]
 }
