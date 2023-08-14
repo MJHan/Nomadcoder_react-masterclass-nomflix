@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import {
+  getTrendTv,
   getTvShows,
   IGetResult,
   MENU_ID,
@@ -12,7 +13,7 @@ import Banner from "../Components/Banner";
 
 const Wrapper = styled.div`
   background: black;
-  padding-bottom: 200px;
+  /* padding-bottom: 100px; */
 `;
 
 const Loader = styled.div`
@@ -28,6 +29,10 @@ const SliderWrapper = styled.div`
 `;
 
 function Tv() {
+  const { data: dataTrend, isLoading: isLoadingTrend } = useQuery<IGetResult>(
+    [TV_CATEGORY.TREND],
+    () => getTrendTv("week")
+  );
   const { data: dataLatest, isLoading: isLoadingLatest } = useQuery<IGetResult>(
     [TV_CATEGORY.LATEST],
     () => getTvShows(TV_CATEGORY.LATEST)
@@ -47,15 +52,22 @@ function Tv() {
 
   return (
     <Wrapper>
-      {isLoadingLatest ||
+      {isLoadingTrend ||
+      isLoadingLatest ||
       isLoadingPopular ||
       isLoadingTopRated ||
       isLoadingAiringToday ? (
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Banner data={dataLatest as IGetResult}></Banner>
+          <Banner data={dataTrend as IGetResult}></Banner>
           <SliderWrapper>
+            <Slider
+              menuId={MENU_ID.TV}
+              category={TV_CATEGORY.TREND}
+              data={dataTrend as IGetResult}
+              title={TV_SLIDER_TITLE.TREND}
+            ></Slider>
             <Slider
               menuId={MENU_ID.TV}
               category={TV_CATEGORY.LATEST}

@@ -15,6 +15,7 @@ const TitleWrap = styled.div`
 
 const SliderTitle = styled.h3`
   font-size: 25px;
+  margin-right: 20px;
 `;
 
 const Arrow = styled(motion.svg)`
@@ -24,8 +25,8 @@ const Arrow = styled(motion.svg)`
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   vertical-align: middle;
 `;
 
@@ -61,6 +62,7 @@ const Box = styled(motion.div)<{ bgphoto: string }>`
 `;
 
 const BoxTitle = styled.div`
+  margin-top: 5px;
   font-size: 15px;
   font-weight: 500;
   white-space: pre-wrap;
@@ -78,9 +80,17 @@ const Info = styled(motion.div)`
   position: absolute;
   width: 100%;
   bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
   h4 {
     text-align: center;
     font-size: 18px;
+  }
+  span {
+    font-size: 9px;
   }
 `;
 
@@ -139,17 +149,19 @@ interface ISlider {
   category: string;
   data: IGetResult;
   title: string;
+  filter?: string;
 }
-function Slider({ menuId, category, data, title }: ISlider) {
+function Slider({ menuId, category, data, title, filter }: ISlider) {
   const [index, setIndex] = useState(0);
   const [isReverse, setReverse] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const history = useHistory();
-  let results = data?.results;
-  if (category === MOVIE_CATEGORY.LATEST || category === TV_CATEGORY.LATEST) {
-    results = results.slice(1);
+  /* Set List */
+  let dataList = data?.results;
+  if (category === MOVIE_CATEGORY.TREND || category === TV_CATEGORY.TREND) {
+    dataList = dataList.slice(1);
   }
-  const onBoxClicked = (menuId: string, category: string, id: number) => {
+  const onBoxClicked = (menuId: string, category: string, id: number): void => {
     history.push(`${BASE_URL}/${menuId}/${category}/${id}`);
   };
   const bigMovieMatch = useRouteMatch<{ id: string }>(
@@ -157,11 +169,11 @@ function Slider({ menuId, category, data, title }: ISlider) {
   );
   const toggleLeaving = () => setLeaving((prev) => !prev);
   const increaseIndex = (isReverse: boolean) => {
-    if (results) {
+    if (dataList) {
       if (leaving) return;
       toggleLeaving();
       setReverse(isReverse);
-      const totalMovies = results.length - 1;
+      const totalMovies = dataList.length - 1;
       const maxIndex = Math.floor(totalMovies / offset) - 1;
       setIndex((prev) =>
         isReverse
@@ -183,6 +195,7 @@ function Slider({ menuId, category, data, title }: ISlider) {
           initial="normal"
           whileHover="active"
           xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 25 25"
           onClick={() => increaseIndex(true)}
         >
           <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z" />
@@ -194,6 +207,7 @@ function Slider({ menuId, category, data, title }: ISlider) {
           initial="normal"
           whileHover="active"
           xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 25 25"
           onClick={() => increaseIndex(false)}
         >
           <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z" />
@@ -215,29 +229,34 @@ function Slider({ menuId, category, data, title }: ISlider) {
           transition={{ tyle: "tween", duration: 0.7 }}
           key={index}
         >
-          {
-            // .slice(1)
-            results.slice(offset * index, offset * (index + 1)).map((item) => (
-              <Box
-                layoutId={category + item.id}
-                key={category + item.id}
-                variants={boxVarients}
-                whileHover="hover"
-                transition={{ type: "tween" }}
-                bgphoto={makeImagePath(item.backdrop_path, "w500")}
-                onClick={() => onBoxClicked(menuId, category, item.id)}
-              >
-                <BoxTitle>{item.title ? item.title : item.name}</BoxTitle>
-                <Info variants={infoVarients}>
-                  <h4>
-                    {item.original_title
-                      ? item.original_title
-                      : item.original_name}
-                  </h4>
-                </Info>
-              </Box>
-            ))
-          }
+          {dataList.slice(offset * index, offset * (index + 1)).map((item) => (
+            <Box
+              layoutId={category + item.id}
+              key={category + item.id}
+              variants={boxVarients}
+              whileHover="hover"
+              transition={{ type: "tween" }}
+              bgphoto={makeImagePath(item.backdrop_path, "w500")}
+              onClick={() => onBoxClicked(menuId, category, item.id)}
+            >
+              <BoxTitle>{item.title ? item.title : item.name}</BoxTitle>
+              <Info variants={infoVarients}>
+                <span>
+                  {category === MOVIE_CATEGORY.UPCOMING
+                    ? item.vote_average
+                    : ""}
+                  {category === TV_CATEGORY.AIRING_TODAY
+                    ? item.first_air_date
+                    : ""}
+                </span>
+                <h4>
+                  {item.original_title
+                    ? item.original_title
+                    : item.original_name}
+                </h4>
+              </Info>
+            </Box>
+          ))}
         </Row>
       </AnimatePresence>
       <AnimatePresence>

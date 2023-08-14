@@ -61,7 +61,6 @@ table {
 body {
   font-weight: 300;
   font-family: 'Nanum Myeongjo', serif;
-  /* font-family: 'Noto Serif KR'; */
 
   color:${(props) => props.theme.white.darker};
   line-height: 1.2;

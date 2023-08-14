@@ -3,7 +3,7 @@ import { makeImagePath } from "../utils";
 import { IGetResult } from "../api";
 
 const BannerWrapper = styled.div<{ bgphoto: string }>`
-  height: 100vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -33,8 +33,12 @@ function Banner({ data }: IBanner) {
     <BannerWrapper
       bgphoto={makeImagePath(data?.results[0].backdrop_path || "")}
     >
-      <Title>{data?.results[0].title}</Title>
-      <Overview>{data?.results[0].overview}</Overview>
+      <Title>
+        {data?.results[0].title
+          ? data?.results[0].title
+          : data?.results[0].name}
+      </Title>
+      <Overview>{data?.results[0].overview.slice(0, 150)}...</Overview>
     </BannerWrapper>
   );
 }

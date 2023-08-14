@@ -2,6 +2,7 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import {
   getMovies,
+  getTrendMovie,
   IGetResult,
   MENU_ID,
   MOVIE_CATEGORY,
@@ -12,7 +13,7 @@ import Banner from "../Components/Banner";
 
 const Wrapper = styled.div`
   background: black;
-  padding-bottom: 200px;
+  /* padding-bottom: 100px; */
 `;
 
 const Loader = styled.div`
@@ -28,6 +29,10 @@ const SliderWrapper = styled.div`
 `;
 
 function Home() {
+  const { data: dataTrend, isLoading: isLoadingTrend } = useQuery<IGetResult>(
+    [MOVIE_CATEGORY.TREND],
+    () => getTrendMovie("week")
+  );
   const { data: dataLatest, isLoading: isLoadingLatest } = useQuery<IGetResult>(
     [MOVIE_CATEGORY.LATEST],
     () => getMovies(MOVIE_CATEGORY.LATEST)
@@ -47,15 +52,22 @@ function Home() {
 
   return (
     <Wrapper>
-      {isLoadingLatest ||
+      {isLoadingTrend ||
+      isLoadingLatest ||
       isLoadingPopular ||
       isLoadingTopRated ||
       isLoadingUpcoming ? (
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Banner data={dataLatest as IGetResult}></Banner>
+          <Banner data={dataTrend as IGetResult}></Banner>
           <SliderWrapper>
+            <Slider
+              menuId={MENU_ID.MOVIE}
+              category={MOVIE_CATEGORY.TREND}
+              data={dataTrend as IGetResult}
+              title={MOVIE_SLIDER_TITLE.TREND}
+            ></Slider>
             <Slider
               menuId={MENU_ID.MOVIE}
               category={MOVIE_CATEGORY.LATEST}

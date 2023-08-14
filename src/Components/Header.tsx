@@ -15,6 +15,7 @@ const Nav = styled(motion.nav)`
   font-size: 14px;
   padding: 20px 60px;
   color: white;
+  z-index: 50;
 `;
 
 const Col = styled.div`
@@ -77,7 +78,7 @@ const Input = styled(motion.input)`
   right: 0px;
   padding: 8px 10px;
   padding-left: 35px;
-  z-index: -1;
+  z-index: 50;
   color: white;
   font-size: 14px;
   background-color: transparent;

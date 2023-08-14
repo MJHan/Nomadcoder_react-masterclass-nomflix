@@ -30,11 +30,21 @@ export interface IGetResult {
   total_results: number;
 }
 
+export interface IGenresResult {
+  genres: IGenre[];
+}
+
+export interface IGenre {
+  id: number;
+  name: string;
+}
+
 export enum MOVIE_CATEGORY {
   "LATEST" = "now_playing",
   "TOP_RATED" = "top_rated",
   "UPCOMING" = "upcoming",
   "POPULAR" = "popular",
+  "TREND" = "trend",
 }
 
 export enum MOVIE_SLIDER_TITLE {
@@ -42,6 +52,7 @@ export enum MOVIE_SLIDER_TITLE {
   "TOP_RATED" = "Top Rated Movies",
   "UPCOMING" = "Upcoming Movies",
   "POPULAR" = "Popular",
+  "TREND" = "Trending Movies",
 }
 
 export enum TV_CATEGORY {
@@ -49,6 +60,7 @@ export enum TV_CATEGORY {
   "TOP_RATED" = "top_rated",
   "AIRING_TODAY" = "airing_today",
   "POPULAR" = "popular",
+  "TREND" = "trend",
 }
 
 export enum TV_SLIDER_TITLE {
@@ -56,6 +68,7 @@ export enum TV_SLIDER_TITLE {
   "TOP_RATED" = "Top Rated Shows",
   "AIRING_TODAY" = "Airing Today",
   "POPULAR" = "Popular Shows",
+  "TREND" = "Trending TV Shows",
 }
 
 export enum MENU_ID {
@@ -64,9 +77,21 @@ export enum MENU_ID {
   "SEARCH" = "search",
 }
 
-export function getTrend(type: string, timeWindow: string) {
+export function getGenres(type: string, timeWindow: string) {
   return fetch(
-    `${BASE_PATH}/trending/${type}/${timeWindow}?language=ko-KR`
+    `${BASE_PATH}/genre/${type}/list?api_key=${API_KEY}&language=ko`
+  ).then((response) => response.json());
+}
+
+export function getTrendMovie(timeWindow: string) {
+  return fetch(
+    `${BASE_PATH}/trending/movie/${timeWindow}?api_key=${API_KEY}&language=ko-KR`
+  ).then((response) => response.json());
+}
+
+export function getTrendTv(timeWindow: string) {
+  return fetch(
+    `${BASE_PATH}/trending/tv/${timeWindow}?api_key=${API_KEY}&language=ko-KR`
   ).then((response) => response.json());
 }
 
