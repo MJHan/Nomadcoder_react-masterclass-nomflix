@@ -35,7 +35,7 @@ const ButtonWrapper = styled.div`
 
 const Button = styled.div`
   width: 150px;
-  height: 40px;
+  height: 45px;
   margin-top: 10px;
   padding: 10px;
   border-radius: 5px;
@@ -49,6 +49,9 @@ const Button = styled.div`
   vertical-align: middle;
   &:hover {
     background-color: rgba(0, 0, 0, 0.8);
+  }
+  svg {
+    margin-top: 5px;
   }
 `;
 
@@ -74,9 +77,7 @@ function Banner({ menuId, data }: IBanner) {
           ? data?.results[0].title
           : data?.results[0].name}
       </Title>
-      <Overview>
-        {data?.results[0].overview.slice(0, 160)}..{data?.results[0].id}.
-      </Overview>
+      <Overview>{data?.results[0].overview.slice(0, 160)}...</Overview>
       <ButtonWrapper>
         <Button onClick={() => onButtonClicked(menuId, data?.results[0].id)}>
           <svg

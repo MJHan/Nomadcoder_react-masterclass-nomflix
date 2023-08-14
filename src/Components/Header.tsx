@@ -15,7 +15,7 @@ const Nav = styled(motion.nav)`
   font-size: 14px;
   padding: 20px 60px;
   color: white;
-  z-index: 50;
+  z-index: 10;
 `;
 
 const Col = styled.div`
@@ -59,6 +59,7 @@ const Search = styled.form`
   svg {
     height: 20px;
   }
+  /* z-index: 20; */
 `;
 const Circle = styled(motion.span)`
   position: absolute;
@@ -78,7 +79,6 @@ const Input = styled(motion.input)`
   right: 0px;
   padding: 8px 10px;
   padding-left: 35px;
-  z-index: 50;
   color: white;
   font-size: 14px;
   background-color: transparent;
@@ -116,7 +116,7 @@ function Header() {
   const tvMatch = useRouteMatch(BASE_URL + "/tv");
   const inputAnimation = useAnimation();
   const navAnimation = useAnimation();
-  const { scrollY } = useScroll(); //useViewportScroll => useScroll
+  const { scrollY } = useScroll();
   const toggleSearch = () => {
     if (searchOpen) {
       inputAnimation.start({ scaleX: 0 });
@@ -138,6 +138,7 @@ function Header() {
   const { register, handleSubmit } = useForm<IForm>();
   const onValid = (data: IForm) => {
     history.push(`${BASE_URL}/search?keyword=${data.keyword}`);
+    console.log("History push", data.keyword);
   };
   return (
     <Nav variants={navVariants} animate={navAnimation}>
@@ -177,7 +178,7 @@ function Header() {
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", zIndex: 20 }}
           >
             <path
               fillRule="evenodd"

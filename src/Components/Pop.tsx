@@ -8,6 +8,7 @@ import { useQuery } from "react-query";
 const Overlay = styled(motion.div)`
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
@@ -107,23 +108,37 @@ const Numbers = styled.div`
 `;
 
 const Rate = styled.span`
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
   color: #03c988;
 `;
 
 const ReleaseDate = styled.span`
   font-size: 16px;
+  font-weight: 500;
+  border-style: solid;
+  border-color: #03c988;
+  border-width: 2px;
+  border-radius: 5px;
+  padding: 2px;
 `;
 
 const RunningTime = styled.span`
   font-size: 16px;
+  letter-spacing: -1px;
 `;
 
 const Overview = styled.p`
   font-size: 16px;
   height: 25vh;
   overflow: auto;
+  &::-webkit-scrollbar {
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+  }
 `;
 
 const Renre = styled.div`
@@ -148,7 +163,7 @@ interface IPop {
 function Pop({ menuId, category, id }: IPop) {
   const history = useHistory();
   const { data: dataDetail, isLoading } = useQuery<IDetail>("dataDetail", () =>
-    getDetail(menuId, id)
+    menuId === MENU_ID.SEARCH ? getDetail(category, id) : getDetail(menuId, id)
   );
   // console.log("DETAIL", dataDetail);
   console.log(category + id);
@@ -202,21 +217,21 @@ function Pop({ menuId, category, id }: IPop) {
                   </LeftContents>
                   <RightContents>
                     <Numbers>
-                      <Rate>
-                        {Math.round(dataDetail.vote_average * 10) / 10}
-                      </Rate>
                       <ReleaseDate>
                         {dataDetail.release_date
                           ? dataDetail.release_date.slice(0, 4)
                           : dataDetail.last_air_date?.slice(0, 4)}
                       </ReleaseDate>
+                      <Rate>
+                        ⭐️{Math.round(dataDetail.vote_average * 10) / 10}
+                      </Rate>
                       <RunningTime>
-                        {dataDetail.runtime ? dataDetail.runtime + "분 " : ""}
+                        {dataDetail.runtime ? dataDetail.runtime + " 분 " : ""}
                         {dataDetail.number_of_seasons
-                          ? dataDetail.number_of_seasons + "시즌 "
+                          ? dataDetail.number_of_seasons + " 시즌 | "
                           : ""}
                         {dataDetail.number_of_episodes
-                          ? dataDetail.number_of_episodes + "에피소드 "
+                          ? dataDetail.number_of_episodes + " 에피소드 "
                           : ""}
                       </RunningTime>
                       <Renre>

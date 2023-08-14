@@ -15,7 +15,9 @@ function App() {
         <Route path={[BASE_URL + "/tv", BASE_URL + "/tv/:category/:movieId"]}>
           <Tv />
         </Route>
-        <Route path={BASE_URL + "/search"}>
+        <Route
+          path={[BASE_URL + "/search", BASE_URL + "/search?keyword=:keyword"]}
+        >
           <Search />
         </Route>
         <Route path={[BASE_URL + "/", BASE_URL + "/movies/:category/:movieId"]}>

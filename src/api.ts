@@ -149,9 +149,9 @@ export function getResults(menuId: string, category: string) {
 //   ).then((response) => response.json());
 // }
 
-export function getSearch(menuId: string, query: string) {
+export function getSearch(type: string, query: string) {
   return fetch(
-    `${BASE_PATH}/search/${menuId}?api_key=${API_KEY}&language=ko-KR&include_adult=true&query=${encodeURIComponent(
+    `${BASE_PATH}/search/${type}?api_key=${API_KEY}&language=ko-KR&include_adult=true&query=${encodeURIComponent(
       query
     )}`
   ).then((response) => response.json());
