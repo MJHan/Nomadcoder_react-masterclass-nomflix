@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import {
-  getTrendTv,
-  getTvShows,
+  getTrend,
+  getResults,
   IGetResult,
   MENU_ID,
   TV_CATEGORY,
@@ -31,23 +31,23 @@ const SliderWrapper = styled.div`
 function Tv() {
   const { data: dataTrend, isLoading: isLoadingTrend } = useQuery<IGetResult>(
     [TV_CATEGORY.TREND],
-    () => getTrendTv("week")
+    () => getTrend(MENU_ID.TV, "week")
   );
   const { data: dataLatest, isLoading: isLoadingLatest } = useQuery<IGetResult>(
     [TV_CATEGORY.LATEST],
-    () => getTvShows(TV_CATEGORY.LATEST)
+    () => getResults(MENU_ID.TV, TV_CATEGORY.LATEST)
   );
   const { data: dataPopular, isLoading: isLoadingPopular } =
     useQuery<IGetResult>([TV_CATEGORY.POPULAR], () =>
-      getTvShows(TV_CATEGORY.POPULAR)
+      getResults(MENU_ID.TV, TV_CATEGORY.POPULAR)
     );
   const { data: dataAiringToday, isLoading: isLoadingAiringToday } =
     useQuery<IGetResult>([TV_CATEGORY.AIRING_TODAY], () =>
-      getTvShows(TV_CATEGORY.AIRING_TODAY)
+      getResults(MENU_ID.TV, TV_CATEGORY.AIRING_TODAY)
     );
   const { data: dataTopRated, isLoading: isLoadingTopRated } =
     useQuery<IGetResult>([TV_CATEGORY.TOP_RATED], () =>
-      getTvShows(TV_CATEGORY.TOP_RATED)
+      getResults(MENU_ID.TV, TV_CATEGORY.TOP_RATED)
     );
 
   return (
@@ -60,7 +60,7 @@ function Tv() {
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Banner data={dataTrend as IGetResult}></Banner>
+          <Banner menuId={MENU_ID.TV} data={dataTrend as IGetResult}></Banner>
           <SliderWrapper>
             <Slider
               menuId={MENU_ID.TV}

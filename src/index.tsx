@@ -37,9 +37,6 @@ footer, header, hgroup, main, menu, nav, section {
 *[hidden] {
     display: none;
 }
-body {
-  line-height: 1;
-}
 menu, ol, ul {
   list-style: none;
 }
@@ -61,10 +58,17 @@ table {
 body {
   font-weight: 300;
   font-family: 'Nanum Myeongjo', serif;
-
   color:${(props) => props.theme.white.darker};
   line-height: 1.2;
   background-color: black;
+  overflow-x:hidden;
+  &::-webkit-scrollbar {
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.3);
+    border-radius: 5px;
+  }
 }
 a {
   text-decoration:none;

@@ -53,11 +53,11 @@ const Box = styled(motion.div)<{ bgphoto: string }>`
   font-size: 66px;
   border-radius: 5px;
   cursor: pointer;
-  &:first-child {
-    transform-origin: center left;
-  }
   &:last-child {
     transform-origin: center right;
+  }
+  &:first-child {
+    transform-origin: center left;
   }
 `;
 
@@ -173,8 +173,8 @@ function Slider({ menuId, category, data, title, filter }: ISlider) {
       if (leaving) return;
       toggleLeaving();
       setReverse(isReverse);
-      const totalMovies = dataList.length - 1;
-      const maxIndex = Math.floor(totalMovies / offset) - 1;
+      const totalData = dataList.length - 1;
+      const maxIndex = Math.floor(totalData / offset);
       setIndex((prev) =>
         isReverse
           ? prev === 0
@@ -190,29 +190,33 @@ function Slider({ menuId, category, data, title, filter }: ISlider) {
     <SliderWrapper>
       <TitleWrap>
         <SliderTitle>{title}</SliderTitle>
-        <Arrow
-          variants={arrowVariants}
-          initial="normal"
-          whileHover="active"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 25 25"
-          onClick={() => increaseIndex(true)}
-        >
-          <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z" />
-          <path d="M13.293 7.293 8.586 12l4.707 4.707 1.414-1.414L11.414 12l3.293-3.293-1.414-1.414z" />
-        </Arrow>
+        {dataList.length > offset ? (
+          <>
+            <Arrow
+              variants={arrowVariants}
+              initial="normal"
+              whileHover="active"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 25 25"
+              onClick={() => increaseIndex(true)}
+            >
+              <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z" />
+              <path d="M13.293 7.293 8.586 12l4.707 4.707 1.414-1.414L11.414 12l3.293-3.293-1.414-1.414z" />
+            </Arrow>
 
-        <Arrow
-          variants={arrowVariants}
-          initial="normal"
-          whileHover="active"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 25 25"
-          onClick={() => increaseIndex(false)}
-        >
-          <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z" />
-          <path d="M9.293 8.707 12.586 12l-3.293 3.293 1.414 1.414L15.414 12l-4.707-4.707-1.414 1.414z" />
-        </Arrow>
+            <Arrow
+              variants={arrowVariants}
+              initial="normal"
+              whileHover="active"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 25 25"
+              onClick={() => increaseIndex(false)}
+            >
+              <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z" />
+              <path d="M9.293 8.707 12.586 12l-3.293 3.293 1.414 1.414L15.414 12l-4.707-4.707-1.414 1.414z" />
+            </Arrow>
+          </>
+        ) : null}
       </TitleWrap>
 
       <AnimatePresence
@@ -265,7 +269,6 @@ function Slider({ menuId, category, data, title, filter }: ISlider) {
             menuId={menuId}
             category={category}
             id={Number(bigMovieMatch?.params.id)}
-            data={data as IGetResult}
           ></Pop>
         ) : null}
       </AnimatePresence>

@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import {
-  getMovies,
-  getTrendMovie,
+  getResults,
+  getTrend,
   IGetResult,
   MENU_ID,
   MOVIE_CATEGORY,
@@ -31,23 +31,23 @@ const SliderWrapper = styled.div`
 function Home() {
   const { data: dataTrend, isLoading: isLoadingTrend } = useQuery<IGetResult>(
     [MOVIE_CATEGORY.TREND],
-    () => getTrendMovie("week")
+    () => getTrend(MENU_ID.MOVIE, "week")
   );
   const { data: dataLatest, isLoading: isLoadingLatest } = useQuery<IGetResult>(
     [MOVIE_CATEGORY.LATEST],
-    () => getMovies(MOVIE_CATEGORY.LATEST)
+    () => getResults(MENU_ID.MOVIE, MOVIE_CATEGORY.LATEST)
   );
   const { data: dataPopular, isLoading: isLoadingPopular } =
     useQuery<IGetResult>([MOVIE_CATEGORY.POPULAR], () =>
-      getMovies(MOVIE_CATEGORY.POPULAR)
+      getResults(MENU_ID.MOVIE, MOVIE_CATEGORY.POPULAR)
     );
   const { data: dataUpcoming, isLoading: isLoadingUpcoming } =
     useQuery<IGetResult>([MOVIE_CATEGORY.UPCOMING], () =>
-      getMovies(MOVIE_CATEGORY.UPCOMING)
+      getResults(MENU_ID.MOVIE, MOVIE_CATEGORY.UPCOMING)
     );
   const { data: dataTopRated, isLoading: isLoadingTopRated } =
     useQuery<IGetResult>([MOVIE_CATEGORY.TOP_RATED], () =>
-      getMovies(MOVIE_CATEGORY.TOP_RATED)
+      getResults(MENU_ID.MOVIE, MOVIE_CATEGORY.TOP_RATED)
     );
 
   return (
@@ -60,7 +60,10 @@ function Home() {
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Banner data={dataTrend as IGetResult}></Banner>
+          <Banner
+            menuId={MENU_ID.MOVIE}
+            data={dataTrend as IGetResult}
+          ></Banner>
           <SliderWrapper>
             <Slider
               menuId={MENU_ID.MOVIE}

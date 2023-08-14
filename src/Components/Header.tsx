@@ -62,10 +62,10 @@ const Search = styled.form`
 `;
 const Circle = styled(motion.span)`
   position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 5px;
-  bottom: -5px;
+  width: 6px;
+  height: 6px;
+  border-radius: 6px;
+  bottom: -8px;
   left: 0;
   right: 0;
   margin: 0 auto;
