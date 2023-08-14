@@ -23,6 +23,23 @@ const Loader = styled.div`
   align-items: center;
 `;
 
+const CloseButton = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, 1);
+  }
+`;
+
 const Bigmovie = styled(motion.div)`
   position: absolute;
   width: 50vw;
@@ -61,13 +78,14 @@ const BigTitle = styled.h3`
 `;
 
 const BigOriginalTitle = styled.h4`
+  font-family: Helvetica, sans-serif;
   font-size: 30px;
   font-weight: 500;
   padding-left: 20px;
   padding-bottom: 5px;
   color: ${(props) => props.theme.black.lighter};
   white-space: nowrap;
-  text-shadow: 0.5px 0.5px 0.5px rgba(255, 255, 255, 0.3);
+  text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.2);
 `;
 
 const TagLine = styled.h5`
@@ -97,23 +115,24 @@ const RightContents = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
-  padding-left: 10px;
+  padding-left: 15px;
 `;
 
 const Numbers = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 10px;
   padding-bottom: 10px;
 `;
 
 const Rate = styled.span`
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   color: #03c988;
+  letter-spacing: -1px;
 `;
 
-const ReleaseDate = styled.span`
+const ReleaseYear = styled.span`
   font-size: 16px;
   font-weight: 500;
   border-style: solid;
@@ -147,6 +166,12 @@ const Renre = styled.div`
   justify-content: flex-end;
 `;
 
+const ReleaseDate = styled.div`
+  padding-bottom: 5px;
+  font-size: 16px;
+  font-weight: 500;
+`;
+
 const Homepage = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -175,21 +200,36 @@ function Pop({ menuId, category, id }: IPop) {
   return (
     <>
       <Overlay
-        onClick={onOverlayClick}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
+        onClick={onOverlayClick}
       >
         {isLoading ? (
           <Loader>Loading...</Loader>
         ) : (
-          <Bigmovie
-            layoutId={category + id}
-            onClick={() => {
-              console.log("click!");
-            }}
-          >
+          <Bigmovie layoutId={category + id}>
             {dataDetail && (
               <>
+                <CloseButton onClick={onOverlayClick}>
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    data-name="X"
+                    role="button"
+                    aria-label="close"
+                  >
+                    <title id="preview-modal-70035914">close</title>
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M10.5858 12L2.29291 3.70706L3.70712 2.29285L12 10.5857L20.2929 2.29285L21.7071 3.70706L13.4142 12L21.7071 20.2928L20.2929 21.7071L12 13.4142L3.70712 21.7071L2.29291 20.2928L10.5858 12Z"
+                      fill="currentColor"
+                    ></path>
+                  </svg>
+                </CloseButton>
                 <BigCover
                   style={{
                     backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
@@ -217,13 +257,13 @@ function Pop({ menuId, category, id }: IPop) {
                   </LeftContents>
                   <RightContents>
                     <Numbers>
-                      <ReleaseDate>
+                      <ReleaseYear>
                         {dataDetail.release_date
                           ? dataDetail.release_date.slice(0, 4)
                           : dataDetail.last_air_date?.slice(0, 4)}
-                      </ReleaseDate>
+                      </ReleaseYear>
                       <Rate>
-                        ⭐️{Math.round(dataDetail.vote_average * 10) / 10}
+                        ⭐️ {Math.round(dataDetail.vote_average * 10) / 10}
                       </Rate>
                       <RunningTime>
                         {dataDetail.runtime ? dataDetail.runtime + " 분 " : ""}
@@ -242,14 +282,30 @@ function Pop({ menuId, category, id }: IPop) {
                         )}
                       </Renre>
                     </Numbers>
+
                     <Overview>{dataDetail.overview}</Overview>
-                    <Homepage>
-                      {dataDetail.homepage !== "" ? (
-                        <a href={dataDetail.homepage} target="_blank">
-                          Go Homepage →
-                        </a>
-                      ) : null}
-                    </Homepage>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <ReleaseDate>
+                        {dataDetail.first_air_date
+                          ? "First Air Date : " + dataDetail.first_air_date
+                          : null}
+                        {dataDetail.release_date
+                          ? "Release Date : " + dataDetail.release_date
+                          : null}
+                      </ReleaseDate>
+                      <Homepage>
+                        {dataDetail.homepage !== "" ? (
+                          <a href={dataDetail.homepage} target="_blank">
+                            Go Homepage →
+                          </a>
+                        ) : null}
+                      </Homepage>
+                    </div>
                   </RightContents>
                 </BigOverview>
               </>

@@ -120,6 +120,7 @@ function Header() {
   const toggleSearch = () => {
     if (searchOpen) {
       inputAnimation.start({ scaleX: 0 });
+      setFocus("keyword");
     } else {
       inputAnimation.start({ scaleX: 1 });
     }
@@ -135,7 +136,7 @@ function Header() {
     });
   }, [scrollY, navAnimation]);
   const history = useHistory();
-  const { register, handleSubmit } = useForm<IForm>();
+  const { register, handleSubmit, setFocus } = useForm<IForm>();
   const onValid = (data: IForm) => {
     history.push(`${BASE_URL}/search?keyword=${data.keyword}`);
     console.log("History push", data.keyword);

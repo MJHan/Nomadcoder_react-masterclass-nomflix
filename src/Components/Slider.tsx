@@ -70,7 +70,8 @@ const BoxTitle = styled.div`
   justify-content: flex-end;
   align-items: flex-start;
   padding: 5px;
-  text-shadow: 3px 4px 7px ${(props) => props.theme.black.darker};
+  text-shadow: 1px 1px 2px ${(props) => props.theme.black.darker};
+  color: currentColor;
 `;
 
 const Info = styled(motion.div)`
@@ -90,7 +91,7 @@ const Info = styled(motion.div)`
     font-size: 18px;
   }
   span {
-    font-size: 9px;
+    font-size: 10px;
   }
 `;
 
@@ -246,12 +247,7 @@ function Slider({ menuId, category, data, title, filter }: ISlider) {
               <BoxTitle>{item.title ? item.title : item.name}</BoxTitle>
               <Info variants={infoVarients}>
                 <span>
-                  {category === MOVIE_CATEGORY.UPCOMING
-                    ? item.vote_average
-                    : ""}
-                  {category === TV_CATEGORY.AIRING_TODAY
-                    ? item.first_air_date
-                    : ""}
+                  {item.release_date ? item.release_date : item.first_air_date}
                 </span>
                 <h4>
                   {item.original_title
