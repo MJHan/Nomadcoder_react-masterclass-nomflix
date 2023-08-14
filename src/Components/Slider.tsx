@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { styled } from "styled-components";
 import { BASE_URL, makeImagePath } from "../utils";
-import { IGetMoviesResult } from "../api";
+import { IGetResult, MOVIE_CATEGORY, TV_CATEGORY } from "../api";
 import Pop from "./Pop";
 import { useState } from "react";
 
@@ -137,7 +137,7 @@ const offset = 6;
 interface ISlider {
   menuId: string;
   category: string;
-  data: IGetMoviesResult;
+  data: IGetResult;
   title: string;
 }
 function Slider({ menuId, category, data, title }: ISlider) {
@@ -145,6 +145,10 @@ function Slider({ menuId, category, data, title }: ISlider) {
   const [isReverse, setReverse] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const history = useHistory();
+  let results = data?.results;
+  if (category === MOVIE_CATEGORY.LATEST || category === TV_CATEGORY.LATEST) {
+    results = results.slice(1);
+  }
   const onBoxClicked = (menuId: string, category: string, id: number) => {
     history.push(`${BASE_URL}/${menuId}/${category}/${id}`);
   };
@@ -153,11 +157,11 @@ function Slider({ menuId, category, data, title }: ISlider) {
   );
   const toggleLeaving = () => setLeaving((prev) => !prev);
   const increaseIndex = (isReverse: boolean) => {
-    if (data) {
+    if (results) {
       if (leaving) return;
       toggleLeaving();
       setReverse(isReverse);
-      const totalMovies = data.results.length - 1;
+      const totalMovies = results.length - 1;
       const maxIndex = Math.floor(totalMovies / offset) - 1;
       setIndex((prev) =>
         isReverse
@@ -211,33 +215,38 @@ function Slider({ menuId, category, data, title }: ISlider) {
           transition={{ tyle: "tween", duration: 0.7 }}
           key={index}
         >
-          {data?.results
+          {
             // .slice(1)
-            .slice(offset * index, offset * (index + 1))
-            .map((movie) => (
+            results.slice(offset * index, offset * (index + 1)).map((item) => (
               <Box
-                layoutId={category + movie.id}
-                key={category + movie.id}
+                layoutId={category + item.id}
+                key={category + item.id}
                 variants={boxVarients}
                 whileHover="hover"
                 transition={{ type: "tween" }}
-                bgphoto={makeImagePath(movie.backdrop_path, "w500")}
-                onClick={() => onBoxClicked(menuId, category, movie.id)}
+                bgphoto={makeImagePath(item.backdrop_path, "w500")}
+                onClick={() => onBoxClicked(menuId, category, item.id)}
               >
-                <BoxTitle>{movie.title}</BoxTitle>
+                <BoxTitle>{item.title ? item.title : item.name}</BoxTitle>
                 <Info variants={infoVarients}>
-                  <h4>{movie.title}</h4>
+                  <h4>
+                    {item.original_title
+                      ? item.original_title
+                      : item.original_name}
+                  </h4>
                 </Info>
               </Box>
-            ))}
+            ))
+          }
         </Row>
       </AnimatePresence>
       <AnimatePresence>
         {bigMovieMatch ? (
           <Pop
+            menuId={menuId}
             category={category}
             id={Number(bigMovieMatch?.params.id)}
-            data={data as IGetMoviesResult}
+            data={data as IGetResult}
           ></Pop>
         ) : null}
       </AnimatePresence>

@@ -1,7 +1,7 @@
 import { motion, useScroll } from "framer-motion";
 import { useHistory } from "react-router-dom";
 import { BASE_URL, makeImagePath } from "../utils";
-import { IGetMoviesResult } from "../api";
+import { IGetResult } from "../api";
 import { styled } from "styled-components";
 
 const Overlay = styled(motion.div)`
@@ -49,16 +49,20 @@ const BigOverview = styled.p`
 `;
 
 interface IPop {
+  menuId: string;
   category: string;
   id: number;
-  data: IGetMoviesResult;
+  data: IGetResult;
 }
 
-function Pop({ category, id, data }: IPop) {
+function Pop({ menuId, category, id, data }: IPop) {
   const { scrollY } = useScroll();
   const history = useHistory();
-  const onOverlayClick = () => history.push(`${BASE_URL}/`);
-
+  const onOverlayClick = () => {
+    menuId === "tv"
+      ? history.push(`${BASE_URL}/tv`)
+      : history.push(`${BASE_URL}/`);
+  };
   const clickedMovie =
     category + id && data?.results.find((movie) => movie.id === +id);
   return (

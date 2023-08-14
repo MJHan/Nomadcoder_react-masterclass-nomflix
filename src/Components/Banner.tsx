@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { makeImagePath } from "../utils";
-import { IGetMoviesResult } from "../api";
+import { IGetResult } from "../api";
 
 const BannerWrapper = styled.div<{ bgphoto: string }>`
   height: 100vh;
@@ -25,7 +25,7 @@ const Overview = styled.p`
 `;
 
 interface IBanner {
-  data: IGetMoviesResult;
+  data: IGetResult;
 }
 
 function Banner({ data }: IBanner) {

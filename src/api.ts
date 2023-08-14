@@ -2,21 +2,30 @@
 const API_KEY = "fcd6ba1b246337a63043df427b019d4b";
 const BASE_PATH = "https://api.themoviedb.org/3";
 
-interface IMovie {
+interface IData {
   id: number;
+  title?: string;
+  name?: string;
+  original_title?: string;
+  original_name?: string;
   backdrop_path: string;
   poster_path: string;
-  title: string;
+  release_date?: string;
+  first_air_date?: string;
   overview: string;
+  genre_ids: string[];
+  original_language: string;
+  origin_country?: string[];
+  vote_average: number;
 }
 
-export interface IGetMoviesResult {
-  dates: {
+export interface IGetResult {
+  dates?: {
     maximum: string;
     minimum: string;
   };
   page: number;
-  results: IMovie[];
+  results: IData[];
   total_pages: number;
   total_results: number;
 }
@@ -35,7 +44,7 @@ export enum MOVIE_SLIDER_TITLE {
   "POPULAR" = "Popular",
 }
 
-export enum TV_CTEGORY {
+export enum TV_CATEGORY {
   "LATEST" = "on_the_air",
   "TOP_RATED" = "top_rated",
   "AIRING_TODAY" = "airing_today",
@@ -55,10 +64,16 @@ export enum MENU_ID {
   "SEARCH" = "search",
 }
 
+export function getTrend(type: string, timeWindow: string) {
+  return fetch(
+    `${BASE_PATH}/trending/${type}/${timeWindow}?language=ko-KR`
+  ).then((response) => response.json());
+}
+
 export function getMovies(category: string) {
-  return fetch(`${BASE_PATH}/movie/${category}?api_key=${API_KEY}`).then(
-    (response) => response.json()
-  );
+  return fetch(
+    `${BASE_PATH}/movie/${category}?api_key=${API_KEY}&language=ko-KR`
+  ).then((response) => response.json());
 }
 
 export function getTvShows(category: string) {
