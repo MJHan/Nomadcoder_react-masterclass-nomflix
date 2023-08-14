@@ -21,8 +21,48 @@ export interface IGetMoviesResult {
   total_results: number;
 }
 
-export function getMovies() {
-  return fetch(`${BASE_PATH}/movie/now_playing?api_key=${API_KEY}`).then(
+export enum MOVIE_CATEGORY {
+  "LATEST" = "now_playing",
+  "TOP_RATED" = "top_rated",
+  "UPCOMING" = "upcoming",
+  "POPULAR" = "popular",
+}
+
+export enum MOVIE_SLIDER_TITLE {
+  "LATEST" = "Latest Movies",
+  "TOP_RATED" = "Top Rated Movies",
+  "UPCOMING" = "Upcoming Movies",
+  "POPULAR" = "Popular",
+}
+
+export enum TV_CTEGORY {
+  "LATEST" = "on_the_air",
+  "TOP_RATED" = "top_rated",
+  "AIRING_TODAY" = "airing_today",
+  "POPULAR" = "popular",
+}
+
+export enum TV_SLIDER_TITLE {
+  "LATEST" = "Latest Shows",
+  "TOP_RATED" = "Top Rated Shows",
+  "AIRING_TODAY" = "Airing Today",
+  "POPULAR" = "Popular Shows",
+}
+
+export enum MENU_ID {
+  "MOVIE" = "movies",
+  "TV" = "tv",
+  "SEARCH" = "search",
+}
+
+export function getMovies(category: string) {
+  return fetch(`${BASE_PATH}/movie/${category}?api_key=${API_KEY}`).then(
     (response) => response.json()
   );
+}
+
+export function getTvShows(category: string) {
+  return fetch(
+    `${BASE_PATH}/tv/${category}?api_key=${API_KEY}&language=ko-KR`
+  ).then((response) => response.json());
 }

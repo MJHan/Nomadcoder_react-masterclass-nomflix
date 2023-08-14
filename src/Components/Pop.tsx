@@ -11,6 +11,7 @@ const Overlay = styled(motion.div)`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
+  z-index: 99;
 `;
 
 const Bigmovie = styled(motion.div)`
@@ -48,17 +49,18 @@ const BigOverview = styled.p`
 `;
 
 interface IPop {
-  movieId: number;
+  category: string;
+  id: number;
   data: IGetMoviesResult;
 }
 
-function Pop({ movieId, data }: IPop) {
+function Pop({ category, id, data }: IPop) {
   const { scrollY } = useScroll();
   const history = useHistory();
   const onOverlayClick = () => history.push(`${BASE_URL}/`);
 
   const clickedMovie =
-    movieId && data?.results.find((movie) => movie.id === +movieId);
+    category + id && data?.results.find((movie) => movie.id === +id);
   return (
     <>
       <Overlay
@@ -66,7 +68,7 @@ function Pop({ movieId, data }: IPop) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <Bigmovie style={{ top: scrollY.get() + 100 }} layoutId={"" + movieId}>
+        <Bigmovie style={{ top: scrollY.get() + 100 }} layoutId={category + id}>
           {clickedMovie && (
             <>
               <BigCover

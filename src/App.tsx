@@ -12,13 +12,13 @@ function App() {
     <Router>
       <Header></Header>
       <Switch>
-        <Route path={BASE_URL + "/tv"}>
+        <Route path={[BASE_URL + "/tv", BASE_URL + "/tv/:category/:movieId"]}>
           <Tv />
         </Route>
         <Route path={BASE_URL + "/search"}>
           <Search />
         </Route>
-        <Route path={[BASE_URL + "/", BASE_URL + "/movies/:movieId"]}>
+        <Route path={[BASE_URL + "/", BASE_URL + "/movies/:category/:movieId"]}>
           <Home />
         </Route>
       </Switch>

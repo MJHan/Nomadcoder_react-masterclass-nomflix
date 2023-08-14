@@ -2,14 +2,14 @@ import { styled } from "styled-components";
 import { makeImagePath } from "../utils";
 import { IGetMoviesResult } from "../api";
 
-const BannerWrapper = styled.div<{ bgPhoto: string }>`
+const BannerWrapper = styled.div<{ bgphoto: string }>`
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 60px;
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9)),
-    url(${(props) => props.bgPhoto});
+    url(${(props) => props.bgphoto});
   background-size: cover;
 `;
 
@@ -21,6 +21,7 @@ const Title = styled.h2`
 const Overview = styled.p`
   font-size: 30px;
   width: 50%;
+  font-weight: normal;
 `;
 
 interface IBanner {
@@ -30,7 +31,7 @@ interface IBanner {
 function Banner({ data }: IBanner) {
   return (
     <BannerWrapper
-      bgPhoto={makeImagePath(data?.results[0].backdrop_path || "")}
+      bgphoto={makeImagePath(data?.results[0].backdrop_path || "")}
     >
       <Title>{data?.results[0].title}</Title>
       <Overview>{data?.results[0].overview}</Overview>
