@@ -1,5 +1,3 @@
-// const API_KEY = "10923b261ba94d897ac6b81148314a3f";
-const API_KEY = "fcd6ba1b246337a63043df427b019d4b";
 const BASE_PATH = "https://api.themoviedb.org/3";
 
 export interface IGetResult {
@@ -125,40 +123,67 @@ export enum MENU_ID {
   "SEARCH" = "search",
 }
 
-// export function getGenres(type: string, timeWindow: string) {
-//   return fetch(
-//     `${BASE_PATH}/genre/${type}/list?api_key=${API_KEY}&language=ko`
-//   ).then((response) => response.json());
-// }
-
 export function getTrend(menuId: string, timeWindow: string) {
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmY2Q2YmExYjI0NjMzN2E2MzA0M2RmNDI3YjAxOWQ0YiIsInN1YiI6IjY0ZDVlMDk2YjZjMjY0MTE1NGY4NTI1NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.v6UUQnOlPhOmkalK4AvQTRoffeyJ4AQQeXHgyU77PpU",
+    },
+  };
+
   return fetch(
-    `${BASE_PATH}/trending/${menuId}/${timeWindow}?api_key=${API_KEY}&language=ko-KR`
+    `${BASE_PATH}/trending/${menuId}/${timeWindow}?language=ko-KR`,
+    options
   ).then((response) => response.json());
 }
 
 export function getResults(menuId: string, category: string) {
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmY2Q2YmExYjI0NjMzN2E2MzA0M2RmNDI3YjAxOWQ0YiIsInN1YiI6IjY0ZDVlMDk2YjZjMjY0MTE1NGY4NTI1NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.v6UUQnOlPhOmkalK4AvQTRoffeyJ4AQQeXHgyU77PpU",
+    },
+  };
+
   return fetch(
-    `${BASE_PATH}/${menuId}/${category}?api_key=${API_KEY}&language=ko-KR`
+    `${BASE_PATH}/${menuId}/${category}?language=ko-KR`,
+    options
   ).then((response) => response.json());
 }
 
-// export function getTvShows(category: string) {
-//   return fetch(
-//     `${BASE_PATH}/tv/${category}?api_key=${API_KEY}&language=ko-KR`
-//   ).then((response) => response.json());
-// }
-
 export function getSearch(type: string, query: string) {
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmY2Q2YmExYjI0NjMzN2E2MzA0M2RmNDI3YjAxOWQ0YiIsInN1YiI6IjY0ZDVlMDk2YjZjMjY0MTE1NGY4NTI1NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.v6UUQnOlPhOmkalK4AvQTRoffeyJ4AQQeXHgyU77PpU",
+    },
+  };
+
   return fetch(
-    `${BASE_PATH}/search/${type}?api_key=${API_KEY}&language=ko-KR&include_adult=true&query=${encodeURIComponent(
+    `${BASE_PATH}/search/${type}?language=ko-KR&include_adult=true&query=${encodeURIComponent(
       query
-    )}`
+    )}`,
+    options
   ).then((response) => response.json());
 }
 
 export function getDetail(menuId: string, id: string | number) {
-  return fetch(
-    `${BASE_PATH}/${menuId}/${id}?api_key=${API_KEY}&&language=ko-KR`
-  ).then((response) => response.json());
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmY2Q2YmExYjI0NjMzN2E2MzA0M2RmNDI3YjAxOWQ0YiIsInN1YiI6IjY0ZDVlMDk2YjZjMjY0MTE1NGY4NTI1NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.v6UUQnOlPhOmkalK4AvQTRoffeyJ4AQQeXHgyU77PpU",
+    },
+  };
+
+  return fetch(`${BASE_PATH}/${menuId}/${id}?&language=ko-KR`, options).then(
+    (response) => response.json()
+  );
 }
